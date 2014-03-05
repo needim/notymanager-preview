@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Template</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins, Noty and NotyManager) -->
+    <script src="jquery-1.11.0.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Open Source Noty plugin is not necessary but NotyManager can use this plugin for displaying notifications on screen -->
+    <script type="text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js"></script>
+
+    <!-- noty-manager -->
+    <script type="text/javascript" src="js/noty-manager/jquery.noty.manager.js"></script>
+    <link rel="stylesheet" href="js/noty-manager/noty.manager.css"/>
+    <link rel="stylesheet" href="demo.css"/>
+
+
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a id="notifications" href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"></i></a>
+
+                    <div id="notification-container" class="dropdown-menu" role="menu" aria-labelledby="drop3">
+
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <strong>Notifications</strong>
+                            </header>
+                            <div id="notification-list" class="list-group list-group-alt">
+                            </div>
+                            <footer class="panel-footer">
+                                <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
+                                <a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
+                            </footer>
+                        </section>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>NotyManager</h1>
+
+        <p class="lead">Highly customizable notification manager.<br> It also supports open source <a href="ned.im/noty">Noty</a> plugin.</p>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+
+        // NotyManager initialization
+
+        window.NotyManager = new $.NotyManager($('#notifications'), {
+            bubble   : { // bubble positioning settings
+                top : 10,
+                left: -2,
+                showZero: true
+            },
+            max: 30, // max bubble count
+            container: $('#notification-list'), // this this the notification container
+            wrapper: '<div/>', // this is the wrapper of the a single notification
+            emptyHTML: '<div class="no-notification">There is no notification in here</div>',
+            callback: {
+                onOpen: function() {
+                    // NotyManager instance accessible with this variable in this scope
+                    if (typeof console != 'undefined' && console.log)
+                        console.log('opened', this);
+                },
+                onClose: function() {
+                    // NotyManager instance accessible with this variable in this scope
+                    if (typeof console != 'undefined' && console.log)
+                        console.log('closed', this);
+                }
+            },
+
+            // Below settings for the using open source Noty plugin
+            useNoty: true, // if true notifications also appears on the screen
+            noty: { // this settings used when if useNoty is `true`
+                layout: 'bottomLeft',
+                timeout: false,
+                closeWith: ['button']
+            }
+        });
+
+        // notification body's can be any html string or just string
+        var notification_1 = '<div class="activity-item"> <i class="fa fa-tasks text-warning"></i> <div class="activity"> There are <a href="#">6 new tasks</a> waiting for you. Don\'t forget! <span>About 3 hours ago</span> </div> </div>',
+            notification_2 = '<div class="activity-item"> <i class="fa fa-check text-success"></i> <div class="activity"> Mail server was updated. See <a href="#">changelog</a> <span>About 2 hours ago</span> </div> </div>',
+            notification_3 = '<div class="activity-item"> <i class="fa fa-heart text-danger"></i> <div class="activity"> Your <a href="#">latest post</a> was liked by <a href="#">Audrey Mall</a> <span>35 minutes ago</span> </div> </div>',
+            notification_4 = '<div class="activity-item"> <i class="fa fa-shopping-cart text-success"></i> <div class="activity"> <a href="#">Eugene</a> ordered 2 copies of <a href="#">OEM license</a> <span>14 minutes ago</span> </div> </div>';
+
+        NotyManager.alert(notification_1);
+        NotyManager.info(notification_2);
+        NotyManager.warning(notification_3);
+        NotyManager.error(notification_4, { useNoty: false, increase: false });
+
+
+//        Per Notification Settings
+
+//        {
+//          useNoty: false, // notification will not be displayed with noty
+//          increase: false // notification will not increase the bubble count
+//        }
+
+//        API
+//        NotyManager.increase(1);
+//        NotyManager.decrease(1);
+//        NotyManager.setCount(4);
+//        NotyManager.getNotificationCount();
+//        NotyManager.getBubbleCount();
+//        NotyManager.clearNotifications();
+
+    });
+
+</script>
+
+</body>
+</html>
